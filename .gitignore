@@ -1,0 +1,13 @@
+.idea/
+.vscode/
+
+vendor/
+
+*local.yaml
+mssqlinfo
+*.log
+.tmp/
+.env
+.develop/
+*.swp
+.null-ls_*
