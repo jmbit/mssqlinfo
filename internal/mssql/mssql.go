@@ -2,8 +2,8 @@ package mssql
 
 import (
 	"fmt"
-	"github.com/charmbracelet/log"
 	"github.com/jmoiron/sqlx"
+	"log"
 	"net/url"
 
 	_ "github.com/microsoft/go-mssqldb"
@@ -24,11 +24,11 @@ func buildURL() string {
 func Connect() *sqlx.DB {
 	db, err := sqlx.Open("sqlserver", buildURL())
 	if err != nil {
-		log.Fatal("Failed to connect to Database:", err)
+		log.Fatalf("Failed to connect to Database: %v", err)
 	}
 	err = db.Ping()
 	if err != nil {
-		log.Fatal("Failed to connect to Database:", err)
+		log.Fatalf("Failed to connect to Database: %v", err)
 	}
 	return db
 

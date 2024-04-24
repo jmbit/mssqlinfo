@@ -3,9 +3,9 @@ package inout
 import (
 	"bufio"
 	"fmt"
-	"github.com/charmbracelet/log"
 	"github.com/spf13/viper"
 	"golang.org/x/term"
+	"log"
 	"os"
 	"strings"
 	"syscall"

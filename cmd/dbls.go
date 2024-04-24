@@ -28,10 +28,10 @@ testusteron  testusteron  8         SIMPLE`,
 		db := mssql.Connect()
 		results := mssql.ListDatabases(db)
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-		fmt.Fprintf(w, "Name\tOwner\tSize(MB)\tRecModel")
+		fmt.Fprintf(w, "Name\tOwner\tSize(MB)\tRecModel\n")
 
 		for _, p := range results {
-			fmt.Fprintf(w, "%s\t%s\t%d\t%s", p.Name, p.Owner, p.Size, p.RecoveryModel)
+			fmt.Fprintf(w, "%s\t%s\t%d\t%s\n", p.Name, p.Owner, p.Size, p.RecoveryModel)
 
 		}
 

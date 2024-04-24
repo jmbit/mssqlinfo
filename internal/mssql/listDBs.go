@@ -24,7 +24,7 @@ func ListDatabases(db *sqlx.DB) []DBListEntry {
     WHERE sys.databases.name = sys.master_files.name`,
 	)
 	if err != nil {
-		log.Fatal("Could not get Databases:", err)
+		log.Fatalf("Could not get Databases: %v", err)
 	}
 	dbList := []DBListEntry{}
 	for result.Next() {
