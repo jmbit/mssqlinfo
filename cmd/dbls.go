@@ -15,14 +15,14 @@ import (
 
 // dblsCmd represents the dbls command
 var dblsCmd = &cobra.Command{
-	Use:   "dbls",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use: "dbls",
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "List the Databases on the Server",
+	Long: `List Databases for a MSSQL server:
+mssqlinfo dbls --user sa --password verysecretpassword --server mssql.example.com
+Name         Owner        Size(MB)  Recovery
+master       sa           4         SIMPLE
+testusteron  testusteron  8         SIMPLE`,
 	Run: func(cmd *cobra.Command, args []string) {
 		inout.Ask()
 		db := mssql.Connect()

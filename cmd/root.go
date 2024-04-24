@@ -31,15 +31,11 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:   "mssqlinfo",
 	Short: "Get information about an MSSQL server",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long: `This application bundles common queries for information about MSSQL servers into a single cli application.
+  Username, Password and Server address can either be entered via flags, environment variables or interactively`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	Run: func(cmd *cobra.Command, args []string) {},
+	//Run: func(cmd *cobra.Command, args []string) {},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -63,7 +59,7 @@ func init() {
 	rootCmd.PersistentFlags().StringP("password", "p", "", "password to use for authentication")
 	rootCmd.PersistentFlags().StringP("server", "s", "", "address of the server")
 	rootCmd.PersistentFlags().StringP("db", "d", "", "database to connect to")
-	rootCmd.PersistentFlags().IntP("port", "p", 1433, "Port to connect to")
+	rootCmd.PersistentFlags().IntP("port", "P", 1433, "Port to connect to")
 	viper.BindPFlags(rootCmd.PersistentFlags())
 }
 

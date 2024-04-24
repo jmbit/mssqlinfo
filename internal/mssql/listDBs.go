@@ -1,7 +1,8 @@
 package mssql
 
 import (
-	"github.com/charmbracelet/log"
+	"log"
+
 	"github.com/jmoiron/sqlx"
 )
 
@@ -14,12 +15,13 @@ type DBListEntry struct {
 
 func ListDatabases(db *sqlx.DB) []DBListEntry {
 	result, err := db.Queryx(`
-    SELECT 
-      name AS DatabaseName,
-      SUSER_SNAME(owner_sid) AS Owner,
-      CAST((size * 8.0 / 1024) AS DECIMAL(18,2)) AS SizeMB,
-      recovery_model_desc AS RecoveryModel 
-    FROM sys.databases`,
+    SELECT
+      sys.databases.name AS name,
+      SUSER_SNAME(sys.databases.owner_sid) AS owner,
+      CAST((sys.master_files.size * 8.0 / 1024) AS INT) AS size,
+      sys.databases.recovery_model_desc AS recoverymodel
+    FROM sys.databases, sys.master_files
+    WHERE sys.databases.name = sys.master_files.name`,
 	)
 	if err != nil {
 		log.Fatal("Could not get Databases:", err)
@@ -27,7 +29,10 @@ func ListDatabases(db *sqlx.DB) []DBListEntry {
 	dbList := []DBListEntry{}
 	for result.Next() {
 		var entry DBListEntry
-		result.StructScan(&entry)
+		err := result.StructScan(&entry)
+		if err != nil {
+			log.Println(err)
+		}
 		dbList = append(dbList, entry)
 
 	}
