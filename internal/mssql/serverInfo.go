@@ -20,7 +20,7 @@ type ServerInfo struct {
 	PhysicalMemoryMB sql.NullInt32
 }
 
-func GetServerInfo(db *sqlx.DB) ServerInfo {
+func GetServerInfo(db *sqlx.DB) (ServerInfo, error) {
 	var info ServerInfo
 	result, err := db.Queryx(`SELECT 
     SERVERPROPERTY('ProductVersion') AS version,
@@ -35,14 +35,16 @@ func GetServerInfo(db *sqlx.DB) ServerInfo {
     SERVERPROPERTY('PhysicalMemoryMB') AS physicalmemorymb;
 `)
 	if err != nil {
-		log.Fatalf("Could not get server info: %v", err)
+		log.Printf("Could not get server info: %v", err)
+		return info, err
 	}
 
 	for result.Next() {
 		err = result.StructScan(&info)
 	}
 	if err != nil {
-		log.Fatalf("Could not get server info: %v", err)
+		log.Printf("Could not get server info: %v", err)
+		return info, err
 	}
-	return info
+	return info, nil
 }

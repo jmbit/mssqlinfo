@@ -13,7 +13,7 @@ type DBListEntry struct {
 	RecoveryModel string
 }
 
-func ListDatabases(db *sqlx.DB) []DBListEntry {
+func ListDatabases(db *sqlx.DB) ([]DBListEntry, error) {
 	result, err := db.Queryx(`
     SELECT
       sys.databases.name AS name,
@@ -24,7 +24,8 @@ func ListDatabases(db *sqlx.DB) []DBListEntry {
     WHERE sys.databases.name = sys.master_files.name`,
 	)
 	if err != nil {
-		log.Fatalf("Could not get Databases: %v", err)
+		log.Printf("Could not get Databases: %v", err)
+		return nil, err
 	}
 	dbList := []DBListEntry{}
 	for result.Next() {
@@ -37,6 +38,6 @@ func ListDatabases(db *sqlx.DB) []DBListEntry {
 
 	}
 
-	return dbList
+	return dbList, nil
 
 }

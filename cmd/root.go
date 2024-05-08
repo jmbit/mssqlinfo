@@ -74,7 +74,8 @@ func initConfig() {
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		viper.AddConfigPath(path.Join(home, ".comfig/mssqlinfo"))
+		viper.AddConfigPath(path.Join(home, ".config/mssqlinfo"))
+		viper.AddConfigPath(".")
 		viper.SetConfigType("yaml")
 		viper.SetConfigName("mssqlinfo")
 	}
@@ -84,5 +85,8 @@ func initConfig() {
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+	} else {
+		viper.WriteConfigAs("./mssqlinfo.yaml")
+
 	}
 }

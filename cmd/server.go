@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"text/tabwriter"
 
@@ -24,9 +25,14 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		inout.Ask()
-		db := mssql.Connect()
-		info := mssql.GetServerInfo(db)
-
+		db, err := mssql.Connect()
+		if err != nil {
+			log.Fatal(err)
+		}
+		info, err := mssql.GetServerInfo(db)
+		if err != nil {
+			log.Panic(err)
+		}
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 		fmt.Fprintf(w, "MSSQL Server\t%s\n", info.MachineName)
 		fmt.Fprintf(w, "Version\t%s\n", info.Version)

@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"text/tabwriter"
 
@@ -25,8 +26,14 @@ master       sa           4         SIMPLE
 testusteron  testusteron  8         SIMPLE`,
 	Run: func(cmd *cobra.Command, args []string) {
 		inout.Ask()
-		db := mssql.Connect()
-		results := mssql.ListDatabases(db)
+		db, err := mssql.Connect()
+		if err != nil {
+			log.Fatal(err)
+		}
+		results, err := mssql.ListDatabases(db)
+		if err != nil {
+			log.Panic(err)
+		}
 		w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 		fmt.Fprintf(w, "Name\tOwner\tSize(MB)\tRecModel\n")
 

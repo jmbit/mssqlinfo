@@ -1,0 +1,7 @@
+addr: localhost:3341
+config: ""
+db: "mssql"
+password: "1VerySecurePassword!"
+port: 1433
+server: "localhost"
+user: "sa"

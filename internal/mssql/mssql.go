@@ -21,15 +21,17 @@ func buildURL() string {
 	return u.String()
 }
 
-func Connect() *sqlx.DB {
+func Connect() (*sqlx.DB, error) {
 	db, err := sqlx.Open("sqlserver", buildURL())
 	if err != nil {
-		log.Fatalf("Failed to connect to Database: %v", err)
+		log.Printf("Failed to connect to Database: %v", err)
+		return nil, err
 	}
 	err = db.Ping()
 	if err != nil {
-		log.Fatalf("Failed to connect to Database: %v", err)
+		log.Printf("Failed to connect to Database: %v", err)
+		return nil, err
 	}
-	return db
+	return db, nil
 
 }
