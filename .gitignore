@@ -11,3 +11,4 @@ mssqlinfo
 .develop/
 *.swp
 .null-ls_*
+mssqlinfo.yaml
